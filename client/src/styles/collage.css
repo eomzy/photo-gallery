@@ -1,0 +1,19 @@
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 90px;
+  gap: 4px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.collage-grid--uniform {
+  grid-auto-rows: 110px;
+}
+
+.collage-tile {
+  overflow: hidden;
+  border-radius: 6px;
+  background: #111;
+}
+.collage-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }

@@ -1,0 +1,10 @@
+node_modules/
+server/uploads/
+server/data/*.db
+server/data/*.db-journal
+server/data/*.db-shm
+server/data/*.db-wal
+client/dist/
+.env
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
