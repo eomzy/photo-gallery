@@ -1,16 +1,29 @@
-import { apiClient } from './client.js';
+import * as photosStore from '../storage/photosStore.js';
+import { generateThumbnail } from '../storage/thumbnail.js';
 
-export function listPhotos(tagId) {
-  const query = tagId ? `?tagId=${tagId}` : '';
-  return apiClient.get(`/photos${query}`);
+export async function listPhotos(tagId) {
+  const photos = await photosStore.listPhotos({ tagId });
+  return { photos };
 }
 
-export function uploadPhotos(files) {
-  const formData = new FormData();
-  for (const file of files) formData.append('photos', file);
-  return apiClient.post('/photos', formData);
+export async function uploadPhotos(files) {
+  const photos = [];
+  for (const file of files) {
+    const { thumbBlob, width, height } = await generateThumbnail(file);
+    const photo = await photosStore.insertPhoto({
+      blob: file,
+      thumbBlob,
+      originalName: file.name,
+      mimeType: file.type,
+      sizeBytes: file.size,
+      width,
+      height,
+    });
+    photos.push(photo);
+  }
+  return { photos };
 }
 
-export function deletePhoto(id) {
-  return apiClient.del(`/photos/${id}`);
+export async function deletePhoto(id) {
+  await photosStore.deletePhoto(id);
 }

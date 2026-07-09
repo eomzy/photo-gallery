@@ -1,29 +1,47 @@
-import { apiClient } from './client.js';
+import * as tagsStore from '../storage/tagsStore.js';
+import * as photosStore from '../storage/photosStore.js';
+import { toFriendlyError } from '../storage/errorMessages.js';
 
-export function listTags() {
-  return apiClient.get('/tags');
+export async function listTags() {
+  const tags = await tagsStore.listTags();
+  return { tags };
 }
 
-export function createTag(name, photoIds) {
-  return apiClient.post('/tags', { name, photoIds });
+export async function createTag(name, photoIds) {
+  try {
+    const { tag, addedCount } = await tagsStore.createTagWithPhotos(name, photoIds);
+    return { tag, addedCount };
+  } catch (err) {
+    throw toFriendlyError(err);
+  }
 }
 
-export function getTagPhotos(tagId) {
-  return apiClient.get(`/tags/${tagId}/photos`);
+export async function getTagPhotos(tagId) {
+  const tag = await tagsStore.getTag(tagId);
+  const photos = await photosStore.listPhotos({ tagId });
+  return { tag, photos };
 }
 
-export function addPhotosToTag(tagId, photoIds) {
-  return apiClient.post(`/tags/${tagId}/photos`, { photoIds });
+export async function addPhotosToTag(tagId, photoIds) {
+  try {
+    return await tagsStore.addPhotosToTag(tagId, photoIds);
+  } catch (err) {
+    throw toFriendlyError(err);
+  }
 }
 
-export function removePhotoFromTag(tagId, photoId) {
-  return apiClient.del(`/tags/${tagId}/photos/${photoId}`);
+export async function removePhotoFromTag(tagId, photoId) {
+  await tagsStore.removePhotoFromTag(tagId, photoId);
 }
 
-export function deleteTag(id) {
-  return apiClient.del(`/tags/${id}`);
+export async function deleteTag(id) {
+  await tagsStore.deleteTag(id);
 }
 
-export function mergeTags(sourceTagIds, newName) {
-  return apiClient.post('/tags/merge', { sourceTagIds, newName });
+export async function mergeTags(sourceTagIds, newName) {
+  try {
+    return await tagsStore.mergeTags(sourceTagIds, newName);
+  } catch (err) {
+    throw toFriendlyError(err);
+  }
 }

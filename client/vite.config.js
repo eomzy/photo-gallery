@@ -1,17 +1,16 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react()],
+  // GitHub Pages serves this as a project site under /photo-gallery/, so
+  // production builds need that base path; local dev keeps serving at "/".
+  base: command === 'build' ? '/photo-gallery/' : '/',
   server: {
     port: 5173,
-    proxy: {
-      '/api': 'http://localhost:3001',
-      '/uploads': 'http://localhost:3001',
-    },
   },
   test: {
     environment: 'jsdom',
     setupFiles: ['./test/setup.js'],
   },
-});
+}));
