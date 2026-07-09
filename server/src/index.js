@@ -3,9 +3,10 @@ import { app } from './app.js';
 
 migrate();
 
-// Hardcoded (not process.env.PORT): the dev harness exports its own PORT
-// env var for the client dev server, which would otherwise collide here.
-const PORT = 3001;
+// Render/Railway/etc assign the port via PORT at deploy time; local dev
+// clears it (see dev.cmd) so this falls back to 3001 without colliding
+// with the client dev server.
+const PORT = process.env.PORT ?? 3001;
 app.listen(PORT, () => {
   console.log(`Photo gallery API listening on http://localhost:${PORT}`);
 });
