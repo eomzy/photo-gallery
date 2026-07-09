@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { SelectionProvider, useSelection } from './state/SelectionContext.jsx';
 import { usePhotos } from './hooks/usePhotos.js';
 import { useTags } from './hooks/useTags.js';
-import { Sidebar } from './components/layout/Sidebar.jsx';
+import { TopNav } from './components/layout/TopNav.jsx';
 import { Toolbar } from './components/layout/Toolbar.jsx';
 import { GalleryView } from './components/gallery/GalleryView.jsx';
 import { CollageModal } from './components/collage/CollageModal.jsx';
@@ -52,8 +52,8 @@ function GalleryApp() {
   }
 
   return (
-    <div className="app-layout">
-      <Sidebar tags={tags} activeTagId={activeTagId} onSelectTag={handleSelectTag} />
+    <div className="app-layout app-layout--topnav">
+      <TopNav tags={tags} activeTagId={activeTagId} onSelectTag={handleSelectTag} />
 
       <main className="main-content">
         <Toolbar

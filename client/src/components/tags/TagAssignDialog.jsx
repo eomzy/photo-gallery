@@ -53,7 +53,7 @@ export function TagAssignDialog({ photoIds, tags, onClose, onDone }) {
       {error && <p className="form-error">{error}</p>}
 
       <p className="dialog-subtitle">기존 태그에 추가</p>
-      {tags.length === 0 && <p className="sidebar-empty">기존 태그가 없습니다</p>}
+      {tags.length === 0 && <p className="dialog-empty">기존 태그가 없습니다</p>}
       <ul className="tag-pick-list">
         {tags.map((tag) => (
           <li key={tag.id}>

@@ -36,7 +36,7 @@ export function MergeFoldersDialog({ currentTag, otherTags, onClose, onDone }) {
   return (
     <Modal title={`"${currentTag.name}" 폴더 병합`} onClose={onClose}>
       <p className="dialog-subtitle">병합할 다른 폴더 선택</p>
-      {otherTags.length === 0 && <p className="sidebar-empty">병합할 수 있는 다른 폴더가 없습니다</p>}
+      {otherTags.length === 0 && <p className="dialog-empty">병합할 수 있는 다른 폴더가 없습니다</p>}
       <ul className="tag-pick-list">
         {otherTags.map((tag) => (
           <li key={tag.id}>
